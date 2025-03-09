@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Events\OrderPlaced;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -26,6 +27,9 @@ class OrderController extends Controller
             'quantity' => $request->quantity,
             'total_price' => $total
         ]);
+        
+        $order = Order::find(1);
+        event(new OrderPlaced($order)); 
 
         return redirect()->route('dashboard')->with('success', 'Order placed successfully');
     }

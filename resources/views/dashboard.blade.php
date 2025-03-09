@@ -1,18 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+    
+            @if (session('error'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show"
+                class="ml-4 p-2 text-red-500 bg-red-200 dark:bg-red-900 dark:text-red-400 rounded-md transition-opacity duration-500">
+                {{ session('error') }}
+            </div>
+            @endif
+        </div>
     </x-slot>
     
+ 
     <div class="container">
         <h2>Welcome, {{ Auth::user()->name }}!</h2>
         <div class="row">
             @php
                 $products = [
-                    ['name' => 'BERRY BLISS', 'image' => 'berry_bliss.jpg'],
-                    ['name' => 'CHOCO CRAZE', 'image' => 'choco_craze.jpg'],
-                    ['name' => 'MOCHA MADNESS', 'image' => 'mocha_madness.jpg']
+                    ['name' => 'BERRY BLISS', 'image' => 'cupcake-one.webp'],
+                    ['name' => 'CHOCO CRAZE', 'image' => 'cupcake-two.webp'],
+                    ['name' => 'MOCHA MADNESS', 'image' => 'cupcake-three.jpg']
                 ];
             @endphp
             @foreach($products as $product)

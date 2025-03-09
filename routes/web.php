@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrderController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,7 +13,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [OrderController::class, 'index'])->name('dashboard');
     Route::get('/customize/{product}', [OrderController::class, 'customize'])->name('customize');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::middleware(AdminMiddleware::class)->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    });
 });
 
 Route::middleware('auth')->group(function () {

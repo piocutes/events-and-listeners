@@ -1,10 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Notifications') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+    
+            @if (session('success'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show"
+                class="ml-4 p-2 text-green-600 bg-green-200 dark:bg-green-900 dark:text-green-400 rounded-md transition-opacity duration-500">
+                {{ session('success') }}
+            </div>
+            @endif
+        </div>
     </x-slot>
-        
+     
     <div class="container">
         
         <table class="table table-striped">
