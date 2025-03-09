@@ -2,22 +2,18 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/admin', function () {
-    return view('admin');
-})->middleware(['auth', 'verified'])->name('admin');
-
-Route::get('/customize', function () {
-    return view('customize');
-})->middleware(['auth', 'verified'])->name('customize');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [OrderController::class, 'index'])->name('dashboard');
+    Route::get('/customize/{product}', [OrderController::class, 'customize'])->name('customize');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

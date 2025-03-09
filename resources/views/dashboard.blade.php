@@ -4,14 +4,28 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+    
+    <div class="container">
+        <h2>Welcome, {{ Auth::user()->name }}!</h2>
+        <div class="row">
+            @php
+                $products = [
+                    ['name' => 'BERRY BLISS', 'image' => 'berry_bliss.jpg'],
+                    ['name' => 'CHOCO CRAZE', 'image' => 'choco_craze.jpg'],
+                    ['name' => 'MOCHA MADNESS', 'image' => 'mocha_madness.jpg']
+                ];
+            @endphp
+            @foreach($products as $product)
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ asset('images/' . $product['image']) }}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $product['name'] }}</h5>
+                            <a href="{{ route('customize', ['product' => $product['name']]) }}" class="btn btn-primary">Order</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </x-app-layout>
